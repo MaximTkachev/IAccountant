@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from fastapi import Depends
+from fastapi import Depends, HTTPException, status
 from typing import List, Optional
 
 from iaccountant.database import get_session
@@ -33,5 +33,19 @@ class OperationsService:
 
         self.session.add(operation)
         self.session.commit()
+
+        return operation
+
+    def get_operation_by_id(self, operation_id: int, author_id) -> tables.Operation:
+        operation = (
+            self.session
+            .query(tables.Operation)
+            .filter_by(id=operation_id)
+            .filter_by(author_id=author_id)
+            .first()
+        )
+
+        if not operation:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
         return operation
