@@ -32,7 +32,7 @@ class Operation(Base):
 class File(Base):
     __tablename__ = 'files'
 
-    id = sa.Column(sa.String, primary_key=True)
+    id = sa.Column(sa.Integer, primary_key=True)
     operation_id = sa.Column(sa.Integer, sa.ForeignKey('operations.id'), index=True)
     origin_name = sa.Column(sa.String, nullable=False)
     media_type = sa.Column(sa.String, nullable=False)
